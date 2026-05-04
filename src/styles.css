@@ -139,9 +139,8 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     background-image:
-      radial-gradient(circle at 10% 0%, oklch(0.86 0.17 92 / 0.25), transparent 40%),
-      radial-gradient(circle at 90% 10%, oklch(0.82 0.13 165 / 0.25), transparent 40%),
-      radial-gradient(circle at 50% 100%, oklch(0.78 0.13 230 / 0.18), transparent 50%);
+      radial-gradient(circle at 12% 0%, oklch(0.55 0.14 28 / 0.06), transparent 45%),
+      radial-gradient(circle at 88% 8%, oklch(0.55 0.08 230 / 0.05), transparent 45%);
     background-attachment: fixed;
   }
   h1, h2, h3, .font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
