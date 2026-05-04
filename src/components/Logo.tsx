@@ -8,12 +8,11 @@ export function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
   };
   return (
     <Link to="/" className="inline-flex items-center gap-2 group">
-      <span className="relative inline-block">
-        <span className="absolute -inset-1 bg-gradient-festive blob opacity-80 group-hover:animate-wiggle" />
-        <span className="relative px-2 font-display font-black text-primary-foreground">z</span>
+      <span className="relative inline-flex items-center justify-center w-8 h-8 rounded-lg bg-primary text-primary-foreground font-display font-bold">
+        z
       </span>
-      <span className={`font-display font-black tracking-tight ${sizes[size]}`}>
-        zent<span className="text-coral">.</span>
+      <span className={`font-display font-bold tracking-tight ${sizes[size]}`}>
+        zent<span className="text-primary">.</span>
       </span>
     </Link>
   );
