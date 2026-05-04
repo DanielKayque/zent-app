@@ -30,20 +30,20 @@ function RegisterPage() {
       <div className="w-full max-w-md animate-pop-in">
         <div className="text-center mb-8">
           <Logo size="lg" />
-          <p className="mt-4 text-muted-foreground">Criar sua conta leva 30 segundos ⚡</p>
+          <p className="mt-4 text-muted-foreground">Crie sua conta em segundos.</p>
         </div>
-        <form onSubmit={onSubmit} className="bg-card rounded-3xl p-8 shadow-soft space-y-5">
-          <h1 className="font-display text-3xl font-black">Criar conta</h1>
-          {error && <div className="bg-destructive/10 text-destructive text-sm rounded-2xl px-4 py-3">{error}</div>}
-          <Field label="Como te chamamos?" type="text" value={name} onChange={setName} />
+        <form onSubmit={onSubmit} className="bg-card rounded-2xl p-8 shadow-soft space-y-5 border border-border/60">
+          <h1 className="font-display text-3xl font-bold">Criar conta</h1>
+          {error && <div className="bg-destructive/10 text-destructive text-sm rounded-xl px-4 py-3">{error}</div>}
+          <Field label="Nome" type="text" value={name} onChange={setName} />
           <Field label="Email" type="email" value={email} onChange={setEmail} />
           <Field label="Senha" type="password" value={password} onChange={setPassword} />
-          <button type="submit" className="w-full py-3 rounded-2xl bg-primary text-primary-foreground font-semibold shadow-pop hover:scale-[1.02] transition">
-            Criar minha conta 🎈
+          <button type="submit" className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-semibold shadow-pop hover:scale-[1.02] transition">
+            Criar conta
           </button>
           <p className="text-center text-sm text-muted-foreground">
             Já tem conta?{" "}
-            <Link to="/login" className="text-coral font-semibold hover:underline">Entrar</Link>
+            <Link to="/login" className="text-primary font-semibold hover:underline">Entrar</Link>
           </p>
         </form>
       </div>
