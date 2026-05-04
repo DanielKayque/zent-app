@@ -12,7 +12,7 @@ export function Confetti() {
       {dots.map((d, i) => (
         <div
           key={i}
-          className={`absolute ${d.c} ${d.s} ${d.a} blob opacity-40`}
+          className={`absolute ${d.c} ${d.s} ${d.a} blob opacity-[0.08]`}
           style={{ top: d.t, left: d.l }}
         />
       ))}

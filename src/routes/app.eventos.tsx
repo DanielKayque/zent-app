@@ -25,10 +25,10 @@ function EventsPage() {
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 animate-pop-in">
         <div>
-          <h1 className="font-display text-4xl md:text-5xl font-black">Seus eventos 🎊</h1>
-          <p className="text-muted-foreground mt-2">{events.length} momentos especiais para curtir</p>
+          <h1 className="font-display text-4xl md:text-5xl font-bold">Seus eventos</h1>
+          <p className="text-muted-foreground mt-2">{events.length} eventos cadastrados</p>
         </div>
-        <Link to="/app/novo" className="self-start md:self-auto px-6 py-3 rounded-full bg-primary text-primary-foreground font-semibold shadow-pop hover:scale-105 transition">
+        <Link to="/app/novo" className="self-start md:self-auto px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold shadow-pop hover:scale-105 transition">
           + Novo evento
         </Link>
       </div>
