@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { login } from "@/lib/auth";
+// import { login } from "@/lib/auth";
 import { Logo } from "@/components/Logo";
 import { Confetti } from "@/components/Confetti";
 
@@ -12,14 +12,18 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     try {
       login(email, password);
       navigate({ to: "/app/eventos" });
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Ocorreu um erro ao tentar fazer login.");
+      }
     }
   };
 
@@ -31,17 +35,29 @@ function LoginPage() {
           <Logo size="lg" />
           <p className="mt-4 text-muted-foreground">Bem-vindo de volta.</p>
         </div>
-        <form onSubmit={onSubmit} className="bg-card rounded-2xl p-8 shadow-soft space-y-5 border border-border/60">
+        <form
+          onSubmit={onSubmit}
+          className="bg-card rounded-2xl p-8 shadow-soft space-y-5 border border-border/60"
+        >
           <h1 className="font-display text-3xl font-bold">Entrar</h1>
-          {error && <div className="bg-destructive/10 text-destructive text-sm rounded-xl px-4 py-3">{error}</div>}
+          {error && (
+            <div className="bg-destructive/10 text-destructive text-sm rounded-xl px-4 py-3">
+              {error}
+            </div>
+          )}
           <Field label="Email" type="email" value={email} onChange={setEmail} />
           <Field label="Senha" type="password" value={password} onChange={setPassword} />
-          <button type="submit" className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-semibold shadow-pop hover:scale-[1.02] transition">
+          <button
+            type="submit"
+            className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-semibold shadow-pop hover:scale-[1.02] transition"
+          >
             Entrar
           </button>
           <p className="text-center text-sm text-muted-foreground">
             Novo por aqui?{" "}
-            <Link to="/register" className="text-primary font-semibold hover:underline">Crie sua conta</Link>
+            <Link to="/register" className="text-primary font-semibold hover:underline">
+              Crie sua conta
+            </Link>
           </p>
         </form>
       </div>
@@ -49,7 +65,17 @@ function LoginPage() {
   );
 }
 
-function Field({ label, type, value, onChange }: { label: string; type: string; value: string; onChange: (v: string) => void }) {
+function Field({
+  label,
+  type,
+  value,
+  onChange,
+}: {
+  label: string;
+  type: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
   return (
     <label className="block">
       <span className="text-sm font-medium">{label}</span>
