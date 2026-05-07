@@ -15,7 +15,6 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppNovoRouteImport } from './routes/app.novo'
 import { Route as AppEventosRouteImport } from './routes/app.eventos'
-import { Route as AppEventosEventIdRouteImport } from './routes/app.eventos.$eventId'
 
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
@@ -47,29 +46,22 @@ const AppEventosRoute = AppEventosRouteImport.update({
   path: '/eventos',
   getParentRoute: () => AppRoute,
 } as any)
-const AppEventosEventIdRoute = AppEventosEventIdRouteImport.update({
-  id: '/$eventId',
-  path: '/$eventId',
-  getParentRoute: () => AppEventosRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/app/eventos': typeof AppEventosRouteWithChildren
+  '/app/eventos': typeof AppEventosRoute
   '/app/novo': typeof AppNovoRoute
-  '/app/eventos/$eventId': typeof AppEventosEventIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/app/eventos': typeof AppEventosRouteWithChildren
+  '/app/eventos': typeof AppEventosRoute
   '/app/novo': typeof AppNovoRoute
-  '/app/eventos/$eventId': typeof AppEventosEventIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -77,9 +69,8 @@ export interface FileRoutesById {
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/app/eventos': typeof AppEventosRouteWithChildren
+  '/app/eventos': typeof AppEventosRoute
   '/app/novo': typeof AppNovoRoute
-  '/app/eventos/$eventId': typeof AppEventosEventIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -90,16 +81,8 @@ export interface FileRouteTypes {
     | '/register'
     | '/app/eventos'
     | '/app/novo'
-    | '/app/eventos/$eventId'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/app'
-    | '/login'
-    | '/register'
-    | '/app/eventos'
-    | '/app/novo'
-    | '/app/eventos/$eventId'
+  to: '/' | '/app' | '/login' | '/register' | '/app/eventos' | '/app/novo'
   id:
     | '__root__'
     | '/'
@@ -108,7 +91,6 @@ export interface FileRouteTypes {
     | '/register'
     | '/app/eventos'
     | '/app/novo'
-    | '/app/eventos/$eventId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -162,35 +144,16 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppEventosRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/eventos/$eventId': {
-      id: '/app/eventos/$eventId'
-      path: '/$eventId'
-      fullPath: '/app/eventos/$eventId'
-      preLoaderRoute: typeof AppEventosEventIdRouteImport
-      parentRoute: typeof AppEventosRoute
-    }
   }
 }
 
-interface AppEventosRouteChildren {
-  AppEventosEventIdRoute: typeof AppEventosEventIdRoute
-}
-
-const AppEventosRouteChildren: AppEventosRouteChildren = {
-  AppEventosEventIdRoute: AppEventosEventIdRoute,
-}
-
-const AppEventosRouteWithChildren = AppEventosRoute._addFileChildren(
-  AppEventosRouteChildren,
-)
-
 interface AppRouteChildren {
-  AppEventosRoute: typeof AppEventosRouteWithChildren
+  AppEventosRoute: typeof AppEventosRoute
   AppNovoRoute: typeof AppNovoRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppEventosRoute: AppEventosRouteWithChildren,
+  AppEventosRoute: AppEventosRoute,
   AppNovoRoute: AppNovoRoute,
 }
 

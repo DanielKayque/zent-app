@@ -1,20 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import type { Event } from "@/lib/auth2";
-import { getEvents } from "@/api/events";
+// import type { Event } from "@/lib/auth2";
+import { CreatedEvent, getEvents } from "@/api/events";
 
 export const Route = createFileRoute("/app/eventos")({ component: EventsPage });
 
-const colorMap: Record<Event["color"], string> = {
-  coral: "bg-coral",
-  sun: "bg-sun",
-  mint: "bg-mint",
-  grape: "bg-grape",
-  sky: "bg-sky",
-};
+// const colorMap: Record<Event["color"], string> = {
+//   coral: "bg-coral",
+//   sun: "bg-sun",
+//   mint: "bg-mint",
+//   grape: "bg-grape",
+//   sky: "bg-sky",
+// };
 
 function EventsPage() {
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<CreatedEvent[]>([]);
   const [filter, setFilter] = useState<string>("todos");
 
   useEffect(() => {
@@ -25,8 +25,8 @@ function EventsPage() {
     fetchEvents();
   }, []);
 
-  const cats = ["todos", "festa", "casamento", "show", "corporativo", "outro"];
-  const visible = filter === "todos" ? events : events.filter((e) => e.category === filter);
+  // const cats = ["todos", "festa", "casamento", "show", "corporativo", "outro"];
+  // const visible = filter === "todos" ? events : events.filter((e) => e.category === filter);
 
   return (
     <div className="space-y-8">
@@ -44,7 +44,7 @@ function EventsPage() {
       </div>
 
       <div className="flex gap-2 overflow-x-auto pb-2">
-        {cats.map((c) => (
+        {/* {cats.map((c) => (
           <button
             key={c}
             onClick={() => setFilter(c)}
@@ -54,51 +54,52 @@ function EventsPage() {
           >
             {c.charAt(0).toUpperCase() + c.slice(1)}
           </button>
-        ))}
+        ))} */}
       </div>
 
-      {visible.length === 0 ? (
+      {events.length === 0 ? (
         <div className="text-center py-20 bg-card rounded-3xl">
           <div className="text-6xl mb-3">🎪</div>
           <p className="text-muted-foreground">Nenhum evento por aqui ainda.</p>
         </div>
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {visible.map((ev, i) => (
-            <Link
+          {events.map((ev, i) => (
+            <section
+              // Aqui cada evento será renderizado como um card, mostrando as informações básicas como nome, data, local e número de participantes. Ao clicar no card, o usuário será levado para a página de detalhes do evento.
               key={ev.id}
-              to="/app/eventos/$eventId"
-              params={{ eventId: ev.id }}
+              // to="/app/eventos/$eventId"
+              // params={{ eventId: ev.id }}
               className="group bg-card rounded-3xl overflow-hidden shadow-soft hover:-translate-y-1 transition animate-pop-in"
               style={{ animationDelay: `${i * 60}ms` }}
             >
-              <div
-                className={`relative h-32 ${colorMap[ev.color]} flex items-center justify-center`}
-              >
+              {/* <div className={`relative h-32 flex items-center justify-center`}>
+                // Essa div acima vai ser a capa do evento, onde pode ser colocado emojis ou imagens
+                relacionadas a categoria do evento.
                 <span className="text-6xl group-hover:scale-110 group-hover:rotate-6 transition">
-                  {ev.emoji}
+                  //Aqui ficara os emojis//
                 </span>
                 <span className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-background/80 backdrop-blur text-xs font-semibold">
-                  {ev.category}
+                  //Aqui ficará a categoria do evento, podendo ser representada por emojis ou texto,
+                  dependendo do design escolhido.
                 </span>
-              </div>
+              </div> */}
               <div className="p-5">
-                <h3 className="font-display text-xl font-bold leading-tight">{ev.title}</h3>
-                <p className="text-sm text-muted-foreground mt-1">📍 {ev.location}</p>
+                <h3 className="font-display text-xl font-bold leading-tight">{ev.name}</h3>
+                <p className="text-sm text-muted-foreground mt-1">📍 {ev.address}</p>
                 <p className="text-sm text-muted-foreground">📅 {formatDate(ev.date)}</p>
                 <div className="mt-4 flex items-center justify-between">
-                  <div className="text-sm font-medium">
-                    👥 {ev.attendees}/{ev.capacity}
-                  </div>
+                  {/* // Aqui ficará os participantes totais cadastrados no evento. */}
+                  <div className="text-sm font-medium">👥 {ev.limitParticipants}</div>
                   <div className="w-20 h-1.5 bg-muted rounded-full overflow-hidden">
-                    <div
+                    {/* <div
                       className="h-full bg-gradient-festive"
                       style={{ width: `${Math.min(100, (ev.attendees / ev.capacity) * 100)}%` }}
-                    />
+                    /> */}
                   </div>
                 </div>
               </div>
-            </Link>
+            </section>
           ))}
         </div>
       )}

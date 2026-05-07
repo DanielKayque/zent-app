@@ -31,13 +31,24 @@ function Landing() {
       <header className="px-6 md:px-12 py-6 flex items-center justify-between max-w-7xl mx-auto">
         <Logo />
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-muted-foreground">
-          <a href="#funcionalidades" className="hover:text-foreground transition">Funcionalidades</a>
-          <a href="#por-que" className="hover:text-foreground transition">Por que Zent</a>
-          <a href="#como-funciona" className="hover:text-foreground transition">Como funciona</a>
-          <a href="#depoimentos" className="hover:text-foreground transition">Depoimentos</a>
+          <a href="#funcionalidades" className="hover:text-foreground transition">
+            Funcionalidades
+          </a>
+          <a href="#por-que" className="hover:text-foreground transition">
+            Por que Zent
+          </a>
+          <a href="#como-funciona" className="hover:text-foreground transition">
+            Como funciona
+          </a>
+          <a href="#depoimentos" className="hover:text-foreground transition">
+            Depoimentos
+          </a>
         </nav>
         <div className="flex items-center gap-2">
-          <Link to="/login" className="px-4 py-2 rounded-xl font-medium hover:bg-muted transition text-sm">
+          <Link
+            to="/login"
+            className="px-4 py-2 rounded-xl font-medium hover:bg-muted transition text-sm"
+          >
             Entrar
           </Link>
           <Link
@@ -66,8 +77,8 @@ function Landing() {
             <span className="text-primary italic">jeito</span>.
           </h1>
           <p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Do casamento ao after, do corporativo à festa na piscina — Zent organiza
-            convidados, datas e detalhes com a leveza que o seu evento merece.
+            Do casamento ao after, do corporativo à festa na piscina — Zent organiza convidados,
+            datas e detalhes com a leveza que o seu evento merece.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
             <Link
@@ -95,7 +106,9 @@ function Landing() {
               { v: "150+", l: "Cidades" },
             ].map((s) => (
               <div key={s.l} className="text-center">
-                <div className="font-display text-3xl md:text-4xl font-bold text-primary">{s.v}</div>
+                <div className="font-display text-3xl md:text-4xl font-bold text-primary">
+                  {s.v}
+                </div>
                 <div className="text-xs md:text-sm text-muted-foreground mt-1">{s.l}</div>
               </div>
             ))}
@@ -105,7 +118,9 @@ function Landing() {
         {/* Funcionalidades */}
         <section id="funcionalidades" className="px-6 md:px-12 py-24 max-w-6xl mx-auto">
           <div className="text-center max-w-2xl mx-auto">
-            <span className="text-sm font-semibold text-primary uppercase tracking-wider">Funcionalidades</span>
+            <span className="text-sm font-semibold text-primary uppercase tracking-wider">
+              Funcionalidades
+            </span>
             <h2 className="mt-3 font-display text-4xl md:text-5xl font-bold">
               Tudo o que você precisa, num só lugar
             </h2>
@@ -171,12 +186,13 @@ function Landing() {
                   Por que escolher Zent
                 </span>
                 <h2 className="mt-3 font-display text-4xl md:text-5xl font-bold leading-tight">
-                  Porque organizar evento <span className="italic text-primary">não deveria</span> ser um evento à parte.
+                  Porque organizar evento <span className="italic text-primary">não deveria</span>{" "}
+                  ser um evento à parte.
                 </h2>
                 <p className="mt-6 text-muted-foreground text-lg">
-                  A gente já passou por planilhas perdidas, grupos confusos no WhatsApp e
-                  anotações em guardanapo. O Zent existe para você focar no que importa:
-                  o momento, as pessoas, a memória.
+                  A gente já passou por planilhas perdidas, grupos confusos no WhatsApp e anotações
+                  em guardanapo. O Zent existe para você focar no que importa: o momento, as
+                  pessoas, a memória.
                 </p>
                 <div className="mt-8 flex flex-col sm:flex-row gap-3">
                   <Link
@@ -228,7 +244,9 @@ function Landing() {
         {/* Como funciona */}
         <section id="como-funciona" className="px-6 md:px-12 py-24 max-w-6xl mx-auto">
           <div className="text-center max-w-2xl mx-auto">
-            <span className="text-sm font-semibold text-primary uppercase tracking-wider">Como funciona</span>
+            <span className="text-sm font-semibold text-primary uppercase tracking-wider">
+              Como funciona
+            </span>
             <h2 className="mt-3 font-display text-4xl md:text-5xl font-bold">
               Em 3 passos simples
             </h2>
@@ -268,7 +286,9 @@ function Landing() {
         {/* Depoimentos */}
         <section id="depoimentos" className="px-6 md:px-12 py-24 max-w-6xl mx-auto">
           <div className="text-center max-w-2xl mx-auto">
-            <span className="text-sm font-semibold text-primary uppercase tracking-wider">Depoimentos</span>
+            <span className="text-sm font-semibold text-primary uppercase tracking-wider">
+              Depoimentos
+            </span>
             <h2 className="mt-3 font-display text-4xl md:text-5xl font-bold">
               Quem usa, recomenda
             </h2>
@@ -346,9 +366,15 @@ function Landing() {
             </p>
           </div>
           <nav className="flex items-center gap-6 text-sm text-muted-foreground">
-            <a href="#funcionalidades" className="hover:text-foreground transition">Funcionalidades</a>
-            <a href="#por-que" className="hover:text-foreground transition">Por que Zent</a>
-            <Link to="/login" className="hover:text-foreground transition">Entrar</Link>
+            <a href="#funcionalidades" className="hover:text-foreground transition">
+              Funcionalidades
+            </a>
+            <a href="#por-que" className="hover:text-foreground transition">
+              Por que Zent
+            </a>
+            <Link to="/login" className="hover:text-foreground transition">
+              Entrar
+            </Link>
           </nav>
         </div>
       </footer>

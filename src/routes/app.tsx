@@ -2,44 +2,39 @@ import { createFileRoute, Outlet, Link, useNavigate, useRouterState } from "@tan
 import { useEffect } from "react";
 // import { useAuth, logout } from "@/lib/auth2";
 import { Logo } from "@/components/Logo";
+import { getAuthToken, getUser } from "@/api/events";
 
 export const Route = createFileRoute("/app")({ component: AppLayout });
 
 function AppLayout() {
   const navigate = useNavigate();
-  // const { user, ready } = useAuth();
-  const user = JSON.parse(localStorage.getItem("user") || "null");
+  const user = getUser();
+  const token = getAuthToken();
   const path = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     if (!token) {
       navigate({ to: "/login" });
     }
-  }, [navigate]);
+  }, [token, navigate]);
 
   // useEffect(() => {
   //   if (ready && !user) navigate({ to: "/login" });
   // }, [ready, user, navigate]);
 
-  // if (!ready || !user) {
-  //   return (
-  //     <div className="min-h-screen flex items-center justify-center text-muted-foreground">
-  //       Carregando... 🎈
-  //     </div>
-  //   );
-  // }
+  if (!token || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-muted-foreground">
+        Carregando... 🎈
+      </div>
+    );
+  }
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate({ to: "/" });
   };
-
-  // const handleLogout = () => {
-  //   logout();
-  //   navigate({ to: "/" });
-  // };
 
   const navItems = [
     { to: "/app/eventos", label: "Eventos", icon: "🎉" },
@@ -68,9 +63,9 @@ function AppLayout() {
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex items-center gap-2">
               <div className="w-9 h-9 rounded-full bg-gradient-confetti flex items-center justify-center text-white font-bold">
-                {user.name.charAt(0).toUpperCase()}
+                {user?.name.charAt(0).toUpperCase()}
               </div>
-              <span className="text-sm font-medium">{user.name.split(" ")[0]}</span>
+              <span className="text-sm font-medium">{user?.name.split(" ")[0]}</span>
             </div>
             <button
               onClick={handleLogout}

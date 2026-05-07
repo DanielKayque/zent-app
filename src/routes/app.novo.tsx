@@ -1,41 +1,41 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { saveEvent, type Event } from "@/lib/auth2";
+import { createEvents, type CreatedEvent } from "@/api/events";
 
 export const Route = createFileRoute("/app/novo")({ component: NewEventPage });
 
-const emojis = ["🎉", "🎂", "💍", "🎸", "🍹", "🎪", "🎈", "🎃", "🎄", "🥂", "🚀", "🎤"];
-const colors: Event["color"][] = ["coral", "sun", "mint", "grape", "sky"];
-const colorMap: Record<Event["color"], string> = {
-  coral: "bg-coral",
-  sun: "bg-sun",
-  mint: "bg-mint",
-  grape: "bg-grape",
-  sky: "bg-sky",
-};
+// const emojis = ["🎉", "🎂", "💍", "🎸", "🍹", "🎪", "🎈", "🎃", "🎄", "🥂", "🚀", "🎤"];
+// const colors: Event["color"][] = ["coral", "sun", "mint", "grape", "sky"];
+// const colorMap: Record<Event["color"], string> = {
+//   coral: "bg-coral",
+//   sun: "bg-sun",
+//   mint: "bg-mint",
+//   grape: "bg-grape",
+//   sky: "bg-sky",
+// };
 
 function NewEventPage() {
   const navigate = useNavigate();
-  const [form, setForm] = useState<Omit<Event, "id">>({
-    title: "",
-    emoji: "🎉",
+  const [form, setForm] = useState<Omit<CreatedEvent, "creatorId">>({
+    name: "",
     date: "",
-    location: "",
-    description: "",
-    category: "festa",
-    attendees: 0,
-    capacity: 50,
-    color: "coral",
+    address: "",
+    limitParticipants: 0,
   });
 
   const set = <K extends keyof typeof form>(k: K, v: (typeof form)[K]) =>
     setForm((f) => ({ ...f, [k]: v }));
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const id = crypto.randomUUID();
-    saveEvent({ ...form, id });
-    navigate({ to: "/app/eventos/$eventId", params: { eventId: id } });
+    // Aqui você chamaria a API para criar o evento, passando `form` como corpo da requisição.
+    const response = await createEvents(form);
+
+    if (response) {
+      console.log("Evento criado:", response);
+
+      navigate({ to: "/app/eventos" });
+    }
   };
 
   return (
@@ -44,10 +44,12 @@ function NewEventPage() {
       <p className="text-muted-foreground mt-2">Conta pra gente como vai ser essa festa.</p>
 
       <form onSubmit={submit} className="mt-8 bg-card rounded-3xl p-6 md:p-8 shadow-soft space-y-6">
-        <div>
-          <label className="text-sm font-medium">Escolha um emoji</label>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {emojis.map((em) => (
+        {/* //Código comentado abaixo é para escolher emoji e cor do evento, mas como a API ainda nn tem
+        esses campos, deixei salvo aqui para quando for implementar. */}
+        {/* <div> */}
+        {/* <label className="text-sm font-medium">Escolha um emoji</label> */}
+        {/* <div className="mt-2 flex flex-wrap gap-2"> */}
+        {/* {emojis.map((em) => (
               <button
                 type="button"
                 key={em}
@@ -55,27 +57,25 @@ function NewEventPage() {
                 className={`w-12 h-12 rounded-2xl text-2xl transition ${form.emoji === em ? "bg-primary scale-110" : "bg-muted hover:bg-secondary"}`}
               >
                 {em}
-              </button>
-            ))}
+              </button> */}
+        {/* ))}
           </div>
         </div>
 
         <div>
-          <label className="text-sm font-medium">Cor do card</label>
-          <div className="mt-2 flex gap-3">
-            {colors.map((c) => (
+          {/* <label className="text-sm font-medium">Cor do card</label> */}
+        {/* <div className="mt-2 flex gap-3"> */}
+        {/* {colors.map((c) => (
               <button
                 type="button"
                 key={c}
                 onClick={() => set("color", c)}
                 className={`w-10 h-10 rounded-full ${colorMap[c]} transition ${form.color === c ? "ring-4 ring-offset-2 ring-foreground/30 scale-110" : ""}`}
               />
-            ))}
-          </div>
-        </div>
-
-        <Field label="Nome do evento" value={form.title} onChange={(v) => set("title", v)} />
-
+            ))} */}
+        {/* </div> */}
+        {/* </div> */}
+        <Field label="Nome do evento" value={form.name} onChange={(v) => set("name", v)} />
         <div className="grid sm:grid-cols-2 gap-4">
           <Field
             label="Data e hora"
@@ -84,8 +84,8 @@ function NewEventPage() {
             onChange={(v) => set("date", v)}
           />
           <div>
-            <label className="text-sm font-medium">Categoria</label>
-            <select
+            {/* <label className="text-sm font-medium">Categoria</label> */}
+            {/* <select
               value={form.category}
               onChange={(e) => set("category", e.target.value as Event["category"])}
               className="mt-1 w-full px-4 py-3 rounded-2xl bg-muted border-2 border-transparent focus:border-primary focus:bg-card outline-none transition"
@@ -95,38 +95,34 @@ function NewEventPage() {
               <option value="corporativo">Corporativo</option>
               <option value="show">Show</option>
               <option value="outro">Outro</option>
-            </select>
+            </select> */}
           </div>
         </div>
-
-        <Field label="Local" value={form.location} onChange={(v) => set("location", v)} />
-
+        <Field label="Local" value={form.address} onChange={(v) => set("address", v)} />
         <div>
-          <label className="text-sm font-medium">Descrição</label>
-          <textarea
+          {/* <label className="text-sm font-medium">Descrição</label> */}
+          {/* <textarea
             required
             rows={4}
             value={form.description}
             onChange={(e) => set("description", e.target.value)}
             className="mt-1 w-full px-4 py-3 rounded-2xl bg-muted border-2 border-transparent focus:border-primary focus:bg-card outline-none transition resize-none"
-          />
+          /> */}
         </div>
-
         <div className="grid sm:grid-cols-2 gap-4">
           <Field
             label="Capacidade"
             type="number"
-            value={String(form.capacity)}
-            onChange={(v) => set("capacity", Number(v) || 0)}
+            value={String(form.limitParticipants)}
+            onChange={(v) => set("limitParticipants", Number(v) || 0)}
           />
-          <Field
+          {/* <Field
             label="Confirmados"
             type="number"
             value={String(form.attendees)}
             onChange={(v) => set("attendees", Number(v) || 0)}
-          />
+          /> */}
         </div>
-
         <button
           type="submit"
           className="w-full py-4 rounded-2xl bg-primary text-primary-foreground font-semibold text-lg shadow-pop hover:scale-[1.02] transition"
