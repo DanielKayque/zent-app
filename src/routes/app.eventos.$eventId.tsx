@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { getEvent, deleteEvent, type Event } from "@/lib/auth";
+import { getEvent, deleteEvent, type Event } from "@/lib/auth2";
 
 export const Route = createFileRoute("/app/eventos/$eventId")({
   component: EventDetail,
@@ -19,9 +19,12 @@ function EventDetail() {
   const navigate = useNavigate();
   const [event, setEvent] = useState<Event | null | undefined>(undefined);
 
-  useEffect(() => { setEvent(getEvent(eventId) ?? null); }, [eventId]);
+  useEffect(() => {
+    setEvent(getEvent(eventId) ?? null);
+  }, [eventId]);
 
-  if (event === undefined) return <div className="text-center py-20 text-muted-foreground">Carregando...</div>;
+  if (event === undefined)
+    return <div className="text-center py-20 text-muted-foreground">Carregando...</div>;
 
   if (event === null) {
     return (
@@ -29,7 +32,10 @@ function EventDetail() {
         <div className="text-7xl mb-4">🎈</div>
         <h1 className="font-display text-3xl font-black">Evento não encontrado</h1>
         <p className="text-muted-foreground mt-2">Talvez ele já tenha acabado!</p>
-        <Link to="/app/eventos" className="mt-6 inline-block px-6 py-3 rounded-full bg-primary text-primary-foreground font-semibold">
+        <Link
+          to="/app/eventos"
+          className="mt-6 inline-block px-6 py-3 rounded-full bg-primary text-primary-foreground font-semibold"
+        >
           Ver outros eventos
         </Link>
       </div>
@@ -47,9 +53,13 @@ function EventDetail() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-8 animate-pop-in">
-      <Link to="/app/eventos" className="text-sm text-muted-foreground hover:text-foreground">← Todos os eventos</Link>
+      <Link to="/app/eventos" className="text-sm text-muted-foreground hover:text-foreground">
+        ← Todos os eventos
+      </Link>
 
-      <div className={`relative ${colorMap[event.color]} rounded-4xl p-12 text-center overflow-hidden shadow-pop`}>
+      <div
+        className={`relative ${colorMap[event.color]} rounded-4xl p-12 text-center overflow-hidden shadow-pop`}
+      >
         <div className="absolute -top-8 -left-8 w-40 h-40 blob bg-background/30 animate-float" />
         <div className="absolute -bottom-10 -right-10 w-48 h-48 blob bg-background/20 animate-float [animation-delay:1s]" />
         <div className="relative">
@@ -62,9 +72,15 @@ function EventDetail() {
       </div>
 
       <div className="grid sm:grid-cols-3 gap-4">
-        <InfoCard icon="📅" label="Quando">{formatDate(event.date)}</InfoCard>
-        <InfoCard icon="📍" label="Onde">{event.location}</InfoCard>
-        <InfoCard icon="👥" label="Confirmados">{event.attendees} de {event.capacity}</InfoCard>
+        <InfoCard icon="📅" label="Quando">
+          {formatDate(event.date)}
+        </InfoCard>
+        <InfoCard icon="📍" label="Onde">
+          {event.location}
+        </InfoCard>
+        <InfoCard icon="👥" label="Confirmados">
+          {event.attendees} de {event.capacity}
+        </InfoCard>
       </div>
 
       <div className="bg-card rounded-3xl p-6 shadow-soft">
@@ -83,7 +99,10 @@ function EventDetail() {
       </div>
 
       <div className="flex gap-3">
-        <button onClick={remove} className="px-6 py-3 rounded-full bg-destructive/10 text-destructive font-semibold hover:bg-destructive/20 transition">
+        <button
+          onClick={remove}
+          className="px-6 py-3 rounded-full bg-destructive/10 text-destructive font-semibold hover:bg-destructive/20 transition"
+        >
           Apagar evento
         </button>
       </div>
@@ -91,16 +110,32 @@ function EventDetail() {
   );
 }
 
-function InfoCard({ icon, label, children }: { icon: string; label: string; children: React.ReactNode }) {
+function InfoCard({
+  icon,
+  label,
+  children,
+}: {
+  icon: string;
+  label: string;
+  children: React.ReactNode;
+}) {
   return (
     <div className="bg-card rounded-3xl p-5 shadow-soft">
       <div className="text-2xl mb-1">{icon}</div>
-      <div className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">{label}</div>
+      <div className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">
+        {label}
+      </div>
       <div className="mt-1 font-semibold">{children}</div>
     </div>
   );
 }
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleString("pt-BR", { day: "2-digit", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
+  return new Date(iso).toLocaleString("pt-BR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }

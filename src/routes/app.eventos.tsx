@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { getEvents, type Event } from "@/lib/auth";
+import type { Event } from "@/lib/auth2";
+import { getEvents } from "@/api/events";
 
 export const Route = createFileRoute("/app/eventos")({ component: EventsPage });
 
@@ -16,7 +17,13 @@ function EventsPage() {
   const [events, setEvents] = useState<Event[]>([]);
   const [filter, setFilter] = useState<string>("todos");
 
-  useEffect(() => { setEvents(getEvents()); }, []);
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const events = await getEvents();
+      setEvents(events);
+    };
+    fetchEvents();
+  }, []);
 
   const cats = ["todos", "festa", "casamento", "show", "corporativo", "outro"];
   const visible = filter === "todos" ? events : events.filter((e) => e.category === filter);
@@ -28,7 +35,10 @@ function EventsPage() {
           <h1 className="font-display text-4xl md:text-5xl font-bold">Seus eventos</h1>
           <p className="text-muted-foreground mt-2">{events.length} eventos cadastrados</p>
         </div>
-        <Link to="/app/novo" className="self-start md:self-auto px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold shadow-pop hover:scale-105 transition">
+        <Link
+          to="/app/novo"
+          className="self-start md:self-auto px-6 py-3 rounded-xl bg-primary text-primary-foreground font-semibold shadow-pop hover:scale-105 transition"
+        >
           + Novo evento
         </Link>
       </div>
@@ -62,8 +72,12 @@ function EventsPage() {
               className="group bg-card rounded-3xl overflow-hidden shadow-soft hover:-translate-y-1 transition animate-pop-in"
               style={{ animationDelay: `${i * 60}ms` }}
             >
-              <div className={`relative h-32 ${colorMap[ev.color]} flex items-center justify-center`}>
-                <span className="text-6xl group-hover:scale-110 group-hover:rotate-6 transition">{ev.emoji}</span>
+              <div
+                className={`relative h-32 ${colorMap[ev.color]} flex items-center justify-center`}
+              >
+                <span className="text-6xl group-hover:scale-110 group-hover:rotate-6 transition">
+                  {ev.emoji}
+                </span>
                 <span className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-background/80 backdrop-blur text-xs font-semibold">
                   {ev.category}
                 </span>
@@ -93,5 +107,10 @@ function EventsPage() {
 }
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
+  return new Date(iso).toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }

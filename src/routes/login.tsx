@@ -1,8 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 // import { login } from "@/lib/auth";
+// import { setAuthToken, setCurrentUser } from "@/lib/auth2";
 import { Logo } from "@/components/Logo";
 import { Confetti } from "@/components/Confetti";
+import { LogIn } from "@/api/login";
 
 export const Route = createFileRoute("/login")({ component: LoginPage });
 
@@ -12,14 +14,33 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const onSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     try {
-      login(email, password);
+      const response = await LogIn(email, password);
+      console.log(response);
+
+      if (response.error) {
+        setError(response.message || "Erro ao fazer login");
+        return;
+      }
+
+      // Salvar token e usuário
+      localStorage.setItem("token", response.token);
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          name: response.user.name,
+          email: response.user.email,
+        }),
+      );
+
       navigate({ to: "/app/eventos" });
     } catch (err: unknown) {
       if (err instanceof Error) {
+        console.log(err.message);
+
         setError(err.message);
       } else {
         setError("Ocorreu um erro ao tentar fazer login.");

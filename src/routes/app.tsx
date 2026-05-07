@@ -1,27 +1,45 @@
 import { createFileRoute, Outlet, Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { useAuth, logout } from "@/lib/auth";
+// import { useAuth, logout } from "@/lib/auth2";
 import { Logo } from "@/components/Logo";
 
 export const Route = createFileRoute("/app")({ component: AppLayout });
 
 function AppLayout() {
   const navigate = useNavigate();
-  const { user, ready } = useAuth();
+  // const { user, ready } = useAuth();
+  const user = JSON.parse(localStorage.getItem("user") || "null");
   const path = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
-    if (ready && !user) navigate({ to: "/login" });
-  }, [ready, user, navigate]);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate({ to: "/login" });
+    }
+  }, [navigate]);
 
-  if (!ready || !user) {
-    return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Carregando... 🎈</div>;
-  }
+  // useEffect(() => {
+  //   if (ready && !user) navigate({ to: "/login" });
+  // }, [ready, user, navigate]);
+
+  // if (!ready || !user) {
+  //   return (
+  //     <div className="min-h-screen flex items-center justify-center text-muted-foreground">
+  //       Carregando... 🎈
+  //     </div>
+  //   );
+  // }
 
   const handleLogout = () => {
-    logout();
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     navigate({ to: "/" });
   };
+
+  // const handleLogout = () => {
+  //   logout();
+  //   navigate({ to: "/" });
+  // };
 
   const navItems = [
     { to: "/app/eventos", label: "Eventos", icon: "🎉" },
@@ -54,7 +72,10 @@ function AppLayout() {
               </div>
               <span className="text-sm font-medium">{user.name.split(" ")[0]}</span>
             </div>
-            <button onClick={handleLogout} className="text-sm text-muted-foreground hover:text-foreground transition">
+            <button
+              onClick={handleLogout}
+              className="text-sm text-muted-foreground hover:text-foreground transition"
+            >
               Sair
             </button>
           </div>
