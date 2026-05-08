@@ -1,21 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-// import type { Event } from "@/lib/auth2";
 import { CreatedEvent, getEvents } from "@/api/events";
 
 export const Route = createFileRoute("/app/eventos")({ component: EventsPage });
 
-// const colorMap: Record<Event["color"], string> = {
-//   coral: "bg-coral",
-//   sun: "bg-sun",
-//   mint: "bg-mint",
-//   grape: "bg-grape",
-//   sky: "bg-sky",
-// };
-
 function EventsPage() {
   const [events, setEvents] = useState<CreatedEvent[]>([]);
-  const [filter, setFilter] = useState<string>("todos");
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -43,20 +33,6 @@ function EventsPage() {
         </Link>
       </div>
 
-      <div className="flex gap-2 overflow-x-auto pb-2">
-        {/* {cats.map((c) => (
-          <button
-            key={c}
-            onClick={() => setFilter(c)}
-            className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition ${
-              filter === c ? "bg-foreground text-background" : "bg-card hover:bg-muted"
-            }`}
-          >
-            {c.charAt(0).toUpperCase() + c.slice(1)}
-          </button>
-        ))} */}
-      </div>
-
       {events.length === 0 ? (
         <div className="text-center py-20 bg-card rounded-3xl">
           <div className="text-6xl mb-3">🎪</div>
@@ -65,10 +41,11 @@ function EventsPage() {
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {events.map((ev, i) => (
-            <section
+            <Link
               // Aqui cada evento será renderizado como um card, mostrando as informações básicas como nome, data, local e número de participantes. Ao clicar no card, o usuário será levado para a página de detalhes do evento.
+              to="/app/eventos/$eventId"
+              params={{ eventId: ev.id }}
               key={ev.id}
-              // to="/app/eventos/$eventId"
               // params={{ eventId: ev.id }}
               className="group bg-card rounded-3xl overflow-hidden shadow-soft hover:-translate-y-1 transition animate-pop-in"
               style={{ animationDelay: `${i * 60}ms` }}
@@ -99,7 +76,7 @@ function EventsPage() {
                   </div>
                 </div>
               </div>
-            </section>
+            </Link>
           ))}
         </div>
       )}

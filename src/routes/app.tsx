@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 // import { useAuth, logout } from "@/lib/auth2";
 import { Logo } from "@/components/Logo";
 import { getAuthToken, getUser } from "@/api/events";
@@ -11,16 +11,14 @@ function AppLayout() {
   const user = getUser();
   const token = getAuthToken();
   const path = useRouterState({ select: (s) => s.location.pathname });
-
-  useEffect(() => {
-    if (!token) {
-      navigate({ to: "/login" });
-    }
-  }, [token, navigate]);
+  const [isMounted, setIsMounted] = useState(false);
 
   // useEffect(() => {
-  //   if (ready && !user) navigate({ to: "/login" });
-  // }, [ready, user, navigate]);
+  //   setIsMounted(true);
+  //   if (token && user) {
+  //     navigate({ to: "/app/eventos" });
+  //   }
+  // }, [token, navigate, user]);
 
   if (!token || !user) {
     return (

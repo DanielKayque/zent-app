@@ -1,10 +1,11 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import { login } from "@/lib/auth";
 // import { setAuthToken, setCurrentUser } from "@/lib/auth2";
 import { Logo } from "@/components/Logo";
 import { Confetti } from "@/components/Confetti";
 import { LogIn } from "@/api/login";
+import { getAuthToken, getUser } from "@/api/events";
 
 export const Route = createFileRoute("/login")({ component: LoginPage });
 
@@ -13,6 +14,16 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isMounted, setIsMounted] = useState(false);
+
+
+  //Redireciona para a página de eventos se o usuário já estiver logado
+  useEffect(() => {
+    setIsMounted(true);
+    if (getAuthToken() && getUser()) {
+      navigate({ to: "/app/eventos" });
+    }
+  }, [navigate]);
 
   const onSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();

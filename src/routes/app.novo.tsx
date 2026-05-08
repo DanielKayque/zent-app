@@ -16,7 +16,7 @@ export const Route = createFileRoute("/app/novo")({ component: NewEventPage });
 
 function NewEventPage() {
   const navigate = useNavigate();
-  const [form, setForm] = useState<Omit<CreatedEvent, "creatorId">>({
+  const [form, setForm] = useState<Omit<CreatedEvent, "creatorId" | "id">>({
     name: "",
     date: "",
     address: "",

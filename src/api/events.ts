@@ -8,9 +8,17 @@ export type CreatedEvent = {
   name: string;
   date: string;
   limitParticipants?: number;
-  id?: string;
+  id: string;
 
   //Esse creatorId só retorna, nn passamos ele ao criar evento
+  creatorId: number;
+};
+
+export type CreateEvent = {
+  address: string;
+  name: string;
+  date: string;
+  limitParticipants?: number;
   creatorId: number;
 };
 
@@ -59,7 +67,9 @@ export async function getEvents(): Promise<CreatedEvent[]> {
   return response.json();
 }
 
-export async function createEvents(data: Omit<CreatedEvent, "creatorId">): Promise<CreatedEvent> {
+export async function createEvents(
+  data: Omit<CreatedEvent, "creatorId" | "id">,
+): Promise<CreatedEvent> {
   const token = getAuthToken();
   const response = await fetch("https://zentapi-2gaw.onrender.com/event", {
     method: "POST",
@@ -69,5 +79,19 @@ export async function createEvents(data: Omit<CreatedEvent, "creatorId">): Promi
     },
     body: JSON.stringify(data),
   });
+  return response.json();
+}
+
+export async function getEvent(id: string) {
+  const token = getAuthToken();
+  const response = await fetch("https://zentapi-2gaw.onrender.com/event/" + id, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Evento não encontrando");
+  }
   return response.json();
 }
