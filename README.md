@@ -18,8 +18,8 @@ Neste projeto, **desenvolvi toda a API do zero**, desenhando a arquitetura de da
 | **DELETE** | `rota em desenvolvimento` | Exclusão definitiva da conta | ✅ |
 
 ## 🌍 Links do Projeto
-- **Frontend (Deploy):** [Insira o Link da Vercel Aqui]
-- **API (Backend):** [Insira o Link do Render Aqui] *(Nota: Como a API está em um serviço gratuito, a primeira requisição pode levar cerca de 50s para "acordar" o servidor).*
+- **Frontend (Deploy):** https://eventozent.lovable.app/
+- **API (Backend):** https://zentapi-2gaw.onrender.com/ *(Nota: Como a API está em um serviço gratuito, a primeira requisição pode levar cerca de 50s para "acordar" o servidor).*
 
 ---
 👨‍💻 **Desenvolvido por Daniel Kayque** 
