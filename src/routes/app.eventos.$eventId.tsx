@@ -8,14 +8,6 @@ export const Route = createFileRoute("/app/eventos/$eventId")({
   component: EventDetail,
 });
 
-// const colorMap: Record<Event["color"], string> = {
-//   coral: "bg-coral",
-//   sun: "bg-sun",
-//   mint: "bg-mint",
-//   grape: "bg-grape",
-//   sky: "bg-sky",
-// };
-
 function EventDetail() {
   const { eventId } = Route.useParams();
   const navigate = useNavigate();
@@ -23,9 +15,14 @@ function EventDetail() {
 
   useEffect(() => {
     const event = async () => {
-      const catchEvent = await getEvent(eventId);
-      console.log(catchEvent);
-      setEvent(catchEvent);
+      try {
+        const catchEvent = await getEvent(eventId);
+        console.log(catchEvent);
+        setEvent(catchEvent);
+      } catch (error) {
+        console.error("Erro ao buscar evento:", error);
+        setEvent(null);
+      }
     };
     event();
   }, [eventId]);
@@ -78,7 +75,7 @@ function EventDetail() {
 
       <div className="grid sm:grid-cols-3 gap-4">
         <InfoCard icon="📅" label="Quando">
-          {formatDate(event.date)}
+          {event.date}
         </InfoCard>
         <InfoCard icon="📍" label="Onde">
           {event.address}
@@ -90,17 +87,13 @@ function EventDetail() {
 
       <div className="bg-card rounded-3xl p-6 shadow-soft">
         <h2 className="font-display text-xl font-bold mb-2">Sobre o evento</h2>
-        {/* <p className="text-muted-foreground leading-relaxed">{event.}</p> */}
       </div>
 
       <div className="bg-card rounded-3xl p-6 shadow-soft">
         <div className="flex items-center justify-between mb-3">
           <h2 className="font-display text-xl font-bold">Lotação</h2>
-          {/* <span className="text-sm text-muted-foreground">{Math.round(pct)}%</span> */}
         </div>
-        <div className="h-3 bg-muted rounded-full overflow-hidden">
-          {/* <div className="h-full bg-gradient-festive transition-all" style={{ width: `${pct}%` }} /> */}
-        </div>
+        <div className="h-3 bg-muted rounded-full overflow-hidden"></div>
       </div>
 
       <div className="flex gap-3">
@@ -135,12 +128,12 @@ function InfoCard({
   );
 }
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleString("pt-BR", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
+// function formatDate(iso: string) {
+//   return new Date(iso).toLocaleString("pt-BR", {
+//     day: "2-digit",
+//     month: "long",
+//     year: "numeric",
+//     hour: "2-digit",
+//     minute: "2-digit",
+//   });
+// }

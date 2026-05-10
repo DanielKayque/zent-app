@@ -16,7 +16,6 @@ function LoginPage() {
   const [error, setError] = useState("");
   const [isMounted, setIsMounted] = useState(false);
 
-
   //Redireciona para a página de eventos se o usuário já estiver logado
   useEffect(() => {
     setIsMounted(true);

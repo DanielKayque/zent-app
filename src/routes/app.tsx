@@ -11,14 +11,6 @@ function AppLayout() {
   const user = getUser();
   const token = getAuthToken();
   const path = useRouterState({ select: (s) => s.location.pathname });
-  const [isMounted, setIsMounted] = useState(false);
-
-  // useEffect(() => {
-  //   setIsMounted(true);
-  //   if (token && user) {
-  //     navigate({ to: "/app/eventos" });
-  //   }
-  // }, [token, navigate, user]);
 
   if (!token || !user) {
     return (
