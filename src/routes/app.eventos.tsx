@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { CreatedEvent, getEvents } from "@/api/events";
 
@@ -6,6 +6,8 @@ export const Route = createFileRoute("/app/eventos")({ component: EventsPage });
 
 function EventsPage() {
   const [events, setEvents] = useState<CreatedEvent[]>([]);
+  const matches = useRouterState({ select: (s) => s.matches });
+  const isChild = matches.some((m) => m.routeId.includes("$eventId"));
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -15,8 +17,7 @@ function EventsPage() {
     fetchEvents();
   }, []);
 
-  // const cats = ["todos", "festa", "casamento", "show", "corporativo", "outro"];
-  // const visible = filter === "todos" ? events : events.filter((e) => e.category === filter);
+  if (isChild) return <Outlet />;
 
   return (
     <div className="space-y-8">
@@ -42,38 +43,19 @@ function EventsPage() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {events.map((ev, i) => (
             <Link
-              // Aqui cada evento será renderizado como um card, mostrando as informações básicas como nome, data, local e número de participantes. Ao clicar no card, o usuário será levado para a página de detalhes do evento.
               to="/app/eventos/$eventId"
-              params={{ eventId: ev.id }}
-              key={ev.id}
-              // params={{ eventId: ev.id }}
+              params={{ eventId: String(ev.id) }}
+              key={String(ev.id)}
               className="group bg-card rounded-3xl overflow-hidden shadow-soft hover:-translate-y-1 transition animate-pop-in"
               style={{ animationDelay: `${i * 60}ms` }}
             >
-              {/* <div className={`relative h-32 flex items-center justify-center`}>
-                // Essa div acima vai ser a capa do evento, onde pode ser colocado emojis ou imagens
-                relacionadas a categoria do evento.
-                <span className="text-6xl group-hover:scale-110 group-hover:rotate-6 transition">
-                  //Aqui ficara os emojis//
-                </span>
-                <span className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-background/80 backdrop-blur text-xs font-semibold">
-                  //Aqui ficará a categoria do evento, podendo ser representada por emojis ou texto,
-                  dependendo do design escolhido.
-                </span>
-              </div> */}
               <div className="p-5">
                 <h3 className="font-display text-xl font-bold leading-tight">{ev.name}</h3>
                 <p className="text-sm text-muted-foreground mt-1">📍 {ev.address}</p>
                 <p className="text-sm text-muted-foreground">📅 {formatDate(ev.date)}</p>
                 <div className="mt-4 flex items-center justify-between">
-                  {/* // Aqui ficará os participantes totais cadastrados no evento. */}
                   <div className="text-sm font-medium">👥 {ev.limitParticipants}</div>
-                  <div className="w-20 h-1.5 bg-muted rounded-full overflow-hidden">
-                    {/* <div
-                      className="h-full bg-gradient-festive"
-                      style={{ width: `${Math.min(100, (ev.attendees / ev.capacity) * 100)}%` }}
-                    /> */}
-                  </div>
+                  <div className="w-20 h-1.5 bg-muted rounded-full overflow-hidden" />
                 </div>
               </div>
             </Link>
