@@ -21,8 +21,16 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Zent — Gerencie seus eventos com alegria" },
+      { title: "Zent — Gestão de eventos" },
       { name: "description", content: "Zent é o jeito mais divertido de planejar, gerenciar e curtir seus eventos." },
+      { property: "og:title", content: "Zent — Gestão de eventos" },
+      { name: "twitter:title", content: "Zent — Gestão de eventos" },
+      { property: "og:description", content: "Zent é o jeito mais divertido de planejar, gerenciar e curtir seus eventos." },
+      { name: "twitter:description", content: "Zent é o jeito mais divertido de planejar, gerenciar e curtir seus eventos." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8fd3a859-56e4-4121-a9a9-cd29d2e7a3de/id-preview-618aca12--cd697729-eb10-419e-b6cc-acf0d6dd2196.lovable.app-1778427726463.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/8fd3a859-56e4-4121-a9a9-cd29d2e7a3de/id-preview-618aca12--cd697729-eb10-419e-b6cc-acf0d6dd2196.lovable.app-1778427726463.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:type", content: "website" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
