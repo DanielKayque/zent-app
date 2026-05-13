@@ -15,7 +15,7 @@ function EventsPage() {
       setEvents(events);
     };
     fetchEvents();
-  }, []);
+  }, [events]);
 
   if (isChild) return <Outlet />;
 

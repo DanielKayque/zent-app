@@ -95,3 +95,17 @@ export async function getEvent(id: string) {
   }
   return response.json();
 }
+
+export async function deleteEvent(id: string) {
+  const token = getAuthToken();
+  const response = await fetch(`https://zentapi-2gaw.onrender.com/event/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Esse evento não existe");
+  }
+  return response.json();
+}

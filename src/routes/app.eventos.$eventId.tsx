@@ -1,4 +1,4 @@
-import { CreatedEvent, getEvent } from "@/api/events";
+import { CreatedEvent, deleteEvent, getEvent } from "@/api/events";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { set } from "date-fns";
 import { useEffect, useState } from "react";
@@ -46,12 +46,12 @@ function EventDetail() {
     );
   }
 
-  // const remove = () => {
-  //   if (confirm("Apagar esse evento?")) {
-  //     deleteEvent(event.id);
-  //     navigate({ to: "/app/eventos" });
-  //   }
-  // };
+  const remove = () => {
+    if (confirm("Apagar esse evento?")) {
+      deleteEvent(eventId);
+      navigate({ to: "/app/eventos" });
+    }
+  };
 
   // const pct = Math.min(100, (event.attendees / event.capacity) * 100);
 
@@ -98,7 +98,7 @@ function EventDetail() {
 
       <div className="flex gap-3">
         <button
-          // onClick={remove}
+          onClick={remove}
           className="px-6 py-3 rounded-full bg-destructive/10 text-destructive font-semibold hover:bg-destructive/20 transition"
         >
           Apagar evento
