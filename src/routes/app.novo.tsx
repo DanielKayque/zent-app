@@ -4,16 +4,6 @@ import { createEvents, type CreatedEvent } from "@/api/events";
 
 export const Route = createFileRoute("/app/novo")({ component: NewEventPage });
 
-// const emojis = ["🎉", "🎂", "💍", "🎸", "🍹", "🎪", "🎈", "🎃", "🎄", "🥂", "🚀", "🎤"];
-// const colors: Event["color"][] = ["coral", "sun", "mint", "grape", "sky"];
-// const colorMap: Record<Event["color"], string> = {
-//   coral: "bg-coral",
-//   sun: "bg-sun",
-//   mint: "bg-mint",
-//   grape: "bg-grape",
-//   sky: "bg-sky",
-// };
-
 function NewEventPage() {
   const navigate = useNavigate();
   const [form, setForm] = useState<Omit<CreatedEvent, "creatorId" | "id">>({
@@ -113,15 +103,15 @@ function NewEventPage() {
           <Field
             label="Capacidade"
             type="number"
-            value={String(form.limitParticipants)}
+            value={String(
+              form.limitParticipants
+                ? form.limitParticipants < 0
+                  ? 0
+                  : form.limitParticipants
+                : 0,
+            )}
             onChange={(v) => set("limitParticipants", Number(v) || 0)}
           />
-          {/* <Field
-            label="Confirmados"
-            type="number"
-            value={String(form.attendees)}
-            onChange={(v) => set("attendees", Number(v) || 0)}
-          /> */}
         </div>
         <button
           type="submit"
