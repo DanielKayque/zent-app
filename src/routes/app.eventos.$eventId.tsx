@@ -1,8 +1,10 @@
 import { CreatedEvent, deleteEvent, getEvent } from "@/api/events";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { set } from "date-fns";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { getEvent, deleteEvent, type Event } from "@/lib/auth2";
+import { QRCodeCanvas } from "qrcode.react";
+import { Link2, LinkIcon } from "lucide-react";
 
 export const Route = createFileRoute("/app/eventos/$eventId")({
   component: EventDetail,
@@ -12,6 +14,9 @@ function EventDetail() {
   const { eventId } = Route.useParams();
   const navigate = useNavigate();
   const [event, setEvent] = useState<CreatedEvent | null | undefined>(undefined);
+  // Implementações do qrcode
+  const qrRef = React.useRef<HTMLCanvasElement>(null);
+  const eventUrl = `${window.location.origin}/app/eventos/${eventId}`;
 
   useEffect(() => {
     const event = async () => {
@@ -94,6 +99,33 @@ function EventDetail() {
           <h2 className="font-display text-xl font-bold">Lotação</h2>
         </div>
         <div className="h-3 bg-muted rounded-full overflow-hidden"></div>
+      </div>
+
+      {/* Implementação do qrcode */}
+      <div className="bg-card rounded-3xl p-6 shadow-soft">
+        <div className="flex justify-between items-center">
+          <h2 className="font-display text-xl font-bold mb-2">Qr code do evento</h2>
+          <button
+            onClick={() => {
+              window.alert("Link do evento copiado para a área de transferência!");
+              navigator.clipboard.writeText(eventUrl);
+            }}
+            className="mt-2 text-blue-600 underline text-sm cursor-pointer"
+          >
+            <LinkIcon />
+          </button>
+        </div>
+        <QRCodeCanvas
+          value={eventUrl}
+          size={200}
+          bgColor={"#ffffff"}
+          fgColor={"#000000"}
+          level={"H"} // Nível de correção de erro alto (fácil de ler)
+          ref={qrRef}
+        />
+        <p className="text-sm text-muted-foreground mt-2">
+          Escaneie este código QR para acessar o evento
+        </p>
       </div>
 
       <div className="flex gap-3">
