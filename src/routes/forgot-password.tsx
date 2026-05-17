@@ -1,3 +1,4 @@
+import { forgotPassword } from "@/api/forgotPassword";
 import { Confetti } from "@/components/Confetti";
 import { Logo } from "@/components/Logo";
 import { createFileRoute } from "@tanstack/react-router";
@@ -14,7 +15,10 @@ function RouteComponent() {
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
 
+    console.log(email);
     
+    const response = await forgotPassword(email);
+    console.log(response);
   }
 
   return (
