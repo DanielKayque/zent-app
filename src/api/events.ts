@@ -109,3 +109,7 @@ export async function deleteEvent(id: string) {
   }
   return response.json();
 }
+
+export async function forgotPassword(id: string) {
+  
+}

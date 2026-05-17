@@ -90,6 +90,11 @@ function LoginPage() {
               Crie sua conta
             </Link>
           </p>
+          <p className="text-center">
+            <Link to="/forgot-password" className="text-sm text-muted-foreground hover:underline">
+              Esqueci minha senha
+            </Link>
+          </p>
         </form>
       </div>
     </div>

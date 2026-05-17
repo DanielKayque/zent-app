@@ -19,6 +19,8 @@ function EventDetail() {
   const eventUrl = `${window.location.origin}/app/eventos/${eventId}`;
 
   useEffect(() => {
+    console.log(eventId);
+    
     const event = async () => {
       try {
         const catchEvent = await getEvent(eventId);
