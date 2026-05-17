@@ -12,8 +12,8 @@ export const forgotPassword = async (email: string) => {
       body: JSON.stringify({ email }),
     });
 
-    const data = await response.json();
-    console.log(data);
+    const data: Promise<{ message: string }> = await response.json();
+    return data;
   } catch (err: unknown) {
     if (err instanceof Error) {
       throw new Error("Erro desconhecido " + err);

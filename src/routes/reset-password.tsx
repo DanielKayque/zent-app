@@ -1,39 +1,47 @@
-import { forgotPassword } from "@/api/forgotPassword";
+import { resetPassword } from "@/api/resetPassword";
 import { Confetti } from "@/components/Confetti";
 import { Logo } from "@/components/Logo";
-import { createFileRoute } from "@tanstack/react-router";
-import { Link } from "@tanstack/react-router";
-import React from "react";
+import { createFileRoute, Link, useParams, useSearch } from "@tanstack/react-router";
+import React, { useEffect } from "react";
 
-export const Route = createFileRoute("/forgot-password")({
+export const Route = createFileRoute("/reset-password")({
   component: RouteComponent,
 });
 
+type ParamsSearch = {
+  token: string;
+};
+
 function RouteComponent() {
-  const [email, setEmail] = React.useState("");
+  const { token } = Route.useSearch() as ParamsSearch;
+  const [password, setPassword] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState("");
   const [message, setMessage] = React.useState("");
 
   async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
-    setLoading(true);
     e.preventDefault();
-
-    if (!email) {
-      setLoading(false);
-      return;
-    }
-
+    setLoading(true);
     try {
-      setLoading(true);
-      const response = await forgotPassword(email);
-      // Aqui você pode definir uma mensagem de sucesso para o usuário, caso a solicitação seja bem-sucedida.
-      setMessage(response?.message || "Teste");
+      console.log(password);
+      console.log(token);
+      
+
+      const response = await resetPassword(token, password);
+      console.log(response);
+      
       setLoading(false);
+      setMessage(response?.message || "Senha alterada");
     } catch (error) {
-      console.error("Erro ao solicitar redefinição de senha:", error);
-      setLoading(false);
-    } finally {
-      setLoading(false);
+      if (error instanceof Error) {
+        console.error("Error resetting password:", error);
+        setError(error.message || "Failed to reset password");
+        setLoading(false);
+      } else {
+        console.error("Unexpected error:", error);
+        setError("An unexpected error occurred");
+        setLoading(false);
+      }
     }
   }
 
@@ -49,23 +57,30 @@ function RouteComponent() {
           onSubmit={handleSubmit}
           className="bg-card rounded-2xl p-8 shadow-soft space-y-5 border border-border/60 flex flex-col"
         >
-          <h1 className="font-display text-3xl font-bold">Esqueci minha senha</h1>
-          <Field label="Email" value={email} onChange={setEmail} type="email" />
-          <p className="text-sm text-muted-foreground">{message}</p>
+          <h1 className="font-display text-3xl font-bold">Redefinir senha</h1>
+          <Field
+            label="Nova senha"
+            type="password"
+            value={password}
+            onChange={(v) => setPassword(v)}
+          />
+          {error && <p className="text-sm text-red-500">{error}</p>}
+          {message && <p className="text-sm text-red-500">{message}</p>}
           <button
             type="submit"
             disabled={loading}
             className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-semibold shadow-pop hover:scale-[1.02] transition"
           >
-            {loading ? "Enviando..." : "Enviar email"}
+            {loading ? "Cadastrando..." : "Cadastrar nova senha"}
           </button>
-          <p className="text-center text-sm text-muted-foreground">
-            Novo por aqui?{" "}
-            <Link to="/register" className="text-primary font-semibold hover:underline">
-              Crie sua conta
-            </Link>
-          </p>
         </form>
+
+        <p className="text-center text-sm text-muted-foreground">
+          Entrar na minha conta?{" "}
+          <Link to="/login" className="text-primary font-semibold hover:underline">
+            Faça login
+          </Link>
+        </p>
       </div>
     </div>
   );
